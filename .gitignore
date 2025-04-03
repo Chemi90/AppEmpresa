@@ -1,0 +1,17 @@
+# Ignorar archivos temporales de Python
+*.pyc
+__pycache__/
+
+# Ignorar carpetas de entorno virtual
+venv/
+env/
+
+# Ignorar archivos de configuración de tu editor
+.vscode/
+.idea/
+
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+.env

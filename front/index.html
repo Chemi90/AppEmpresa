@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Ingresos y Gastos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Pantalla de Login -->
+  <div id="login-screen">
+    <h2>Login</h2>
+    <input type="password" id="login-password" placeholder="Introduce tu clave">
+    <button id="login-button">Entrar</button>
+    <p id="login-error" class="error"></p>
+  </div>
+
+  <!-- Contenido principal (oculto hasta login correcto) -->
+  <div id="main-content" style="display:none;">
+    <!-- Menú de navegación -->
+    <nav>
+      <button class="tab-button" data-target="desplazamientos">Desplazamientos</button>
+      <button class="tab-button" data-target="tickets">Tickets de Comida</button>
+      <button class="tab-button" data-target="facturas">Facturas</button>
+    </nav>
+
+    <!-- Sección: Desplazamientos -->
+    <section id="desplazamientos" class="tab-content">
+      <h2>Desplazamientos</h2>
+      <form id="desplazamientos-form">
+        <label for="desp-fecha">Fecha:</label>
+        <input type="date" id="desp-fecha" name="fecha">
+        
+        <label for="desp-origen">Lugar de Origen:</label>
+        <input type="text" id="desp-origen" name="origen" value="Atarfe" readonly>
+    
+        <label for="desp-destino">Destino (dirección):</label>
+        <input type="text" id="desp-destino" name="destino">
+        
+        <label for="desp-km">Kilómetros recorridos:</label>
+        <input type="number" step="0.01" id="desp-km" name="distancia">
+        
+        <label for="desp-descripcion">Descripción del viaje:</label>
+        <textarea id="desp-descripcion" name="descripcion"></textarea>
+    
+        <label for="desp-dia">Día:</label>
+        <input type="text" id="desp-dia" name="dia" placeholder="Ej: Lunes">
+    
+        <label for="desp-cliente">Cliente (opcional):</label>
+        <input type="text" id="desp-cliente" name="cliente">
+    
+        <label for="desp-deduccion">Deducción por km (€):</label>
+        <input type="number" step="0.01" id="desp-deduccion" name="deduccion" value="0.26">
+    
+        <label for="desp-gasto">Gasto Total del Viaje (€):</label>
+        <input type="number" step="0.01" id="desp-gasto" name="gasto" readonly>
+    
+        <button type="submit">Agregar Desplazamiento</button>
+      </form>
+    
+      <div id="desp-filter">
+        <h3>Filtrar por Fecha</h3>
+        <label for="desp-filter-start">Desde:</label>
+        <input type="date" id="desp-filter-start">
+        <label for="desp-filter-end">Hasta:</label>
+        <input type="date" id="desp-filter-end">
+        <button id="desp-filter-btn">Filtrar</button>
+      </div>
+      
+      <!-- Contenedor para mostrar resultados -->
+      <div id="desp-results"></div>
+      
+      <div id="desp-summary">
+        <h3>Total de Desplazamientos: <span id="desp-total">0</span> €</h3>
+        <button id="desplazamientos-export-btn">Generar Excel</button>
+      </div>
+    </section>
+    
+    <!-- Sección: Tickets de Comida -->
+    <section id="tickets" class="tab-content" style="display:none;">
+      <h2>Tickets de Comida</h2>
+      <form id="tickets-form">
+         <label for="ticket-foto">Foto de la Factura:</label>
+         <input type="file" id="ticket-foto" name="foto" accept="image/*">
+ 
+         <label for="ticket-localizacion">Localización:</label>
+         <input type="text" id="ticket-localizacion" name="localizacion">
+ 
+         <label for="ticket-dinero">Dinero (€):</label>
+         <input type="number" step="0.01" id="ticket-dinero" name="dinero">
+ 
+         <label for="ticket-motivo">Motivo:</label>
+         <input type="text" id="ticket-motivo" name="motivo">
+ 
+         <label for="ticket-fecha">Fecha:</label>
+         <input type="date" id="ticket-fecha" name="fecha">
+ 
+         <!-- Botón para autorrellenar campos con IA -->
+         <button type="button" id="ticket-autofill-btn">Autorrellenar</button>
+ 
+         <button type="submit">Agregar Ticket</button>
+      </form>
+      <div id="ticket-filter">
+         <h3>Filtrar por Fecha</h3>
+         <label for="ticket-filter-start">Desde:</label>
+         <input type="date" id="ticket-filter-start">
+         <label for="ticket-filter-end">Hasta:</label>
+         <input type="date" id="ticket-filter-end">
+         <button id="ticket-filter-btn">Filtrar</button>
+      </div>
+      <!-- Contenedor para mostrar resultados -->
+      <div id="ticket-results"></div>
+      <div id="ticket-summary">
+         <h3>Total de Tickets: <span id="ticket-total">0</span> €</h3>
+         <button id="ticket-export-btn">Generar Excel</button>
+      </div>
+    </section>
+    
+    <!-- Sección: Facturas -->
+    <section id="facturas" class="tab-content" style="display:none;">
+      <h2>Facturas</h2>
+      <form id="facturas-form">
+         <label for="factura-fecha">Fecha:</label>
+         <input type="date" id="factura-fecha" name="fecha">
+
+         <label for="factura-bruta">Cantidad Bruta (€):</label>
+         <input type="number" step="0.01" id="factura-bruta" name="bruta">
+
+         <label for="factura-neta">Cantidad Neta (€):</label>
+         <input type="number" step="0.01" id="factura-neta" name="neta">
+
+         <label for="factura-retencion">Retención (%):</label>
+         <input type="number" step="0.01" id="factura-retencion" name="retencion">
+
+         <label for="factura-empresa">Nombre de la Empresa:</label>
+         <input type="text" id="factura-empresa" name="empresa">
+
+         <label for="factura-archivo">Archivo de la Factura:</label>
+         <input type="file" id="factura-archivo" name="archivo" accept=".pdf, image/*">
+
+         <!-- Botón para autorrellenar campos con IA -->
+         <button type="button" id="factura-autofill-btn">Autorrellenar</button>
+
+         <button type="submit">Agregar Factura</button>
+      </form>
+      <div id="factura-filter">
+         <h3>Filtrar por Fecha</h3>
+         <label for="factura-filter-start">Desde:</label>
+         <input type="date" id="factura-filter-start">
+         <label for="factura-filter-end">Hasta:</label>
+         <input type="date" id="factura-filter-end">
+         <button id="factura-filter-btn">Filtrar</button>
+      </div>
+      <!-- Contenedor para mostrar resultados -->
+      <div id="factura-results"></div>
+      <div id="factura-summary">
+         <h3>Total Facturas: Bruto <span id="factura-total-bruto">0</span> € - Neto <span id="factura-total-neto">0</span> €</h3>
+         <button id="factura-export-btn">Generar Excel</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

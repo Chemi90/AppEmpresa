@@ -1,0 +1,97 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+  }
+  
+  /* Pantalla de login */
+  #login-screen {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  #login-screen h2 {
+    text-align: center;
+  }
+  
+  #login-screen input, 
+  #login-screen button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+  }
+  
+  .error {
+    color: red;
+    text-align: center;
+  }
+  
+  /* Menú de navegación */
+  nav {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  nav button {
+    background: #555;
+    border: none;
+    color: #fff;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  
+  nav button:hover {
+    background: #777;
+  }
+  
+  /* Contenido de cada pestaña */
+  .tab-content {
+    padding: 20px;
+    background: #fff;
+    margin: 20px;
+    border-radius: 5px;
+  }
+  
+  /* Formularios */
+  form {
+    margin-bottom: 20px;
+  }
+  
+  form label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  form input, 
+  form textarea, 
+  form button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+  /* Resúmenes y filtros */
+  #desp-summary, 
+  #ticket-summary, 
+  #factura-summary {
+    margin-top: 20px;
+    padding: 10px;
+    background: #e2e2e2;
+    border-radius: 5px;
+  }
+  
