@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const loginPasswordInput = document.getElementById('login-password');
   const loginError = document.getElementById('login-error');
 
+  // Permitir enviar la clave al presionar Enter
+  loginPasswordInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      loginButton.click();
+    }
+  });
+
   loginButton.addEventListener('click', function() {
     const password = loginPasswordInput.value;
     fetch('http://localhost:5000/api/login', {
@@ -171,9 +179,12 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .then(response => response.json())
       .then(data => {
-        if(data.localizacion) document.getElementById('ticket-localizacion').value = data.localizacion;
-        if(data.dinero) document.getElementById('ticket-dinero').value = data.dinero.replace(',', '.');
-        if(data.motivo) document.getElementById('ticket-motivo').value = data.motivo;
+        if(data.localizacion)
+          document.getElementById('ticket-localizacion').value = data.localizacion;
+        if(data.dinero)
+          document.getElementById('ticket-dinero').value = data.dinero.replace(',', '.');
+        if(data.motivo)
+          document.getElementById('ticket-motivo').value = data.motivo;
         if(data.fecha) {
           const parts = data.fecha.split('/');
           if (parts.length === 3) {
@@ -304,14 +315,17 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('factura-fecha').value = data.fecha;
           }
         }
-        if(data.cantidad_bruta) document.getElementById('factura-bruta').value = data.cantidad_bruta.replace(',', '.');
-        if(data.cantidad_neta) document.getElementById('factura-neta').value = data.cantidad_neta.replace(',', '.');
+        if(data.cantidad_bruta) 
+          document.getElementById('factura-bruta').value = data.cantidad_bruta.replace(',', '.');
+        if(data.cantidad_neta) 
+          document.getElementById('factura-neta').value = data.cantidad_neta.replace(',', '.');
         if(data.retencion) {
           let ret = data.retencion.replace(',', '.');
           ret = Math.abs(parseFloat(ret));
           document.getElementById('factura-retencion').value = ret.toFixed(2);
         }
-        if(data.nombre_empresa) document.getElementById('factura-empresa').value = data.nombre_empresa;
+        if(data.nombre_empresa)
+          document.getElementById('factura-empresa').value = data.nombre_empresa;
       })
       .catch(error => {
         alert("Error en autofill de factura: " + error.message);

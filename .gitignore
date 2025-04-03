@@ -13,5 +13,5 @@ env/
 # Ignorar archivos de sistema
 .DS_Store
 Thumbs.db
-
+imagenes
 .env

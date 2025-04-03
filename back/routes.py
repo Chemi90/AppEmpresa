@@ -5,19 +5,16 @@ from io import BytesIO
 import os
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
-
-# Para extraer texto de PDF
 from PyPDF2 import PdfReader
-
-# Para llamar a la IA generativa
-import google.generativeai as genai
 import json
+import google.generativeai as genai
+from PIL import Image
 
+# Cargar variables de entorno
 load_dotenv()
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
-# Clave almacenada en el backend para el login
 CORRECT_PASSWORD = os.getenv("PASSWORD")
 
 @api.route('/login', methods=['POST'])
@@ -30,7 +27,7 @@ def login():
         return jsonify({"message": "Clave incorrecta"}), 401
 
 # --------------------------
-# Endpoints existentes (Desplazamientos, Tickets y Facturas)
+# Endpoints existentes: Desplazamientos, Tickets y Facturas
 # --------------------------
 @api.route('/desplazamientos', methods=['GET', 'POST'])
 def desplazamientos():
@@ -182,7 +179,7 @@ def facturas():
             return jsonify({"error": str(e)}), 500
 
 # --------------------------
-# Nuevos Endpoints para Autofill (Tickets y Facturas)
+# Endpoints de Autofill (Tickets y Facturas)
 # --------------------------
 
 @api.route('/tickets/autofill', methods=['POST'])
@@ -194,34 +191,46 @@ def autofill_ticket():
         if file.filename == '':
             return jsonify({"error": "No se proporcionó un archivo válido"}), 400
 
-        # Guardar archivo temporalmente
+        # Guardar el archivo temporalmente
         temp_folder = os.path.join("temp")
         os.makedirs(temp_folder, exist_ok=True)
-        temp_path = os.path.join(temp_folder, secure_filename(file.filename))
+        temp_filename = secure_filename(file.filename)
+        temp_path = os.path.join(temp_folder, temp_filename)
         file.save(temp_path)
 
-        # Extraer texto del PDF
-        reader = PdfReader(temp_path)
-        text = ""
-        for page in reader.pages:
-            page_text = page.extract_text() or ""
-            text += page_text + " "
-        if not text.strip():
-            os.remove(temp_path)
-            return jsonify({"error": "No se pudo extraer texto del ticket"}), 400
+        ext = os.path.splitext(temp_filename)[1].lower()
+        final_prompt = "Extrae de este ticket los siguientes campos y devuelve un JSON EXACTO con las llaves: localizacion, dinero, motivo, fecha (formato dd/MM/yyyy). "
+        if ext == ".pdf":
+            try:
+                reader = PdfReader(temp_path)
+                text = ""
+                for page in reader.pages:
+                    page_text = page.extract_text() or ""
+                    text += page_text + " "
+                final_prompt += "\n\n" + text
+            except Exception as e:
+                os.remove(temp_path)
+                return jsonify({"error": str(e)}), 500
+        else:
+            try:
+                # Abrir la imagen, copiarla y cerrarla para liberar el archivo
+                img = Image.open(temp_path)
+                image_object = img.copy()
+                img.close()
+            except Exception as e:
+                os.remove(temp_path)
+                return jsonify({"error": "Error al abrir la imagen: " + str(e)}), 500
+            # En este caso, el prompt se complementa indicando que la imagen adjunta contiene la información
+            final_prompt += "\n\nLa imagen adjunta contiene la información del ticket."
 
-        # Construir prompt para extraer campos
-        prompt = (
-            "Extrae de este ticket los siguientes campos y devuelve un JSON con ellos: "
-            "localizacion, dinero, motivo, fecha. "
-            "Texto del ticket:\n\n" + text
-        )
-
-        # Configurar la API de generative AI
         genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
         model = genai.GenerativeModel("gemini-2.0-flash")
-        chat = model.start_chat(history=[])
-        response = chat.send_message(prompt, stream=False)
+        if ext != ".pdf":
+            contents = [final_prompt + ", siempre en español", image_object]
+            response = model.generate_content(contents=contents)
+        else:
+            chat = model.start_chat(history=[])
+            response = chat.send_message(final_prompt, stream=False)
         raw_text = response.text.strip()
         if raw_text.startswith("```json"):
             raw_text = raw_text.split("\n", 1)[1]
@@ -246,28 +255,48 @@ def autofill_factura():
 
         temp_folder = os.path.join("temp")
         os.makedirs(temp_folder, exist_ok=True)
-        temp_path = os.path.join(temp_folder, secure_filename(file.filename))
+        temp_filename = secure_filename(file.filename)
+        temp_path = os.path.join(temp_folder, temp_filename)
         file.save(temp_path)
 
-        reader = PdfReader(temp_path)
+        ext = os.path.splitext(temp_filename)[1].lower()
         text = ""
-        for page in reader.pages:
-            page_text = page.extract_text() or ""
-            text += page_text + " "
+        if ext == ".pdf":
+            try:
+                reader = PdfReader(temp_path)
+                for page in reader.pages:
+                    page_text = page.extract_text() or ""
+                    text += page_text + " "
+            except Exception as e:
+                os.remove(temp_path)
+                return jsonify({"error": str(e)}), 500
+        else:
+            try:
+                from PIL import Image
+                import pytesseract
+            except ImportError:
+                os.remove(temp_path)
+                return jsonify({"error": "Pytesseract o PIL no están instalados"}), 500
+            try:
+                img = Image.open(temp_path)
+                image_copy = img.copy()
+                img.close()
+                text = pytesseract.image_to_string(image_copy)
+            except Exception as e:
+                os.remove(temp_path)
+                return jsonify({"error": "Error al procesar la imagen: " + str(e)}), 500
+
         if not text.strip():
             os.remove(temp_path)
             return jsonify({"error": "No se pudo extraer texto de la factura"}), 400
 
-        # Prompt actualizado: se especifica que "retencion" es el porcentaje de IRPF aplicado (por ejemplo, 15)
         prompt = (
-            "Extrae de este documento los siguientes campos y devuelve un JSON con ellos: "
+            "Extrae de este documento los siguientes campos y devuelve un JSON EXACTO con las llaves: "
             "fecha, cantidad_bruta, cantidad_neta, retencion (el porcentaje de IRPF aplicado, sin signo negativo, por ejemplo, 15), "
             "y nombre_empresa. "
             "Texto de la factura:\n\n" + text
         )
 
-        from dotenv import load_dotenv
-        load_dotenv()
         genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
         model = genai.GenerativeModel("gemini-2.0-flash")
         chat = model.start_chat(history=[])
