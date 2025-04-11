@@ -176,7 +176,7 @@
 <section id="gastos" class="tab-content" style="display:none;">
   <h2>Gastos Varios</h2>
   <form id="gastos-form">
-     <!-- Campo oculto para saber si se está editando -->
+     <!-- Campo oculto para distinguir edición -->
      <input type="hidden" id="gasto-current-id" name="id" value="">
      
      <label for="gasto-fecha">Fecha:</label>
@@ -210,7 +210,7 @@
      <label for="gasto-nota">Justificación/Nota:</label>
      <textarea id="gasto-nota" name="nota"></textarea>
 
-     <!-- Nuevo checkbox para dividir deducción en 4 años -->
+     <!-- Nuevo checkbox para activar la división en 4 años -->
      <label for="dividir-deduccion">Dividir deducción en 4 años:</label>
      <input type="checkbox" id="dividir-deduccion" name="dividir_deduccion">
 
@@ -218,6 +218,7 @@
      <button type="button" id="gasto-cancel-btn" style="display:none;">Cancelar</button>
   </form>
 
+  <!-- Bloque de filtrado (se mantiene igual) -->
   <div id="gastos-filter">
      <h3>Filtrar por Fecha</h3>
      <label for="gastos-filter-start">Desde:</label>
