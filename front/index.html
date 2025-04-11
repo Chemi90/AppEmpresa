@@ -173,69 +173,68 @@
     </section>
     
 <!-- Sección: Gastos Varios -->
-    <section id="gastos" class="tab-content" style="display:none;">
-      <h2>Gastos Varios</h2>
-      <form id="gastos-form">
-         <!-- Campo oculto para saber si se está editando -->
-         <input type="hidden" id="gasto-current-id" name="id" value="">
-         
-         <label for="gasto-fecha">Fecha:</label>
-         <input type="date" id="gasto-fecha" name="fecha">
+<section id="gastos" class="tab-content" style="display:none;">
+  <h2>Gastos Varios</h2>
+  <form id="gastos-form">
+     <!-- Campo oculto para saber si se está editando -->
+     <input type="hidden" id="gasto-current-id" name="id" value="">
+     
+     <label for="gasto-fecha">Fecha:</label>
+     <input type="date" id="gasto-fecha" name="fecha">
 
-         <label for="gasto-tipo">Tipo de Gasto:</label>
-         <select id="gasto-tipo" name="tipo">
-           <option value="Terminal móvil">Terminal móvil</option>
-           <option value="ChatGPT Plus">ChatGPT Plus</option>
-           <option value="Electricidad">Electricidad</option>
-           <option value="Internet">Internet</option>
-           <option value="Seguro coche">Seguro coche</option>
-           <option value="Gasolina">Gasolina</option>
-           <option value="IBI vivienda">IBI vivienda</option>
-           <option value="Comunidad de vecinos">Comunidad de vecinos</option>
-           <option value="Otros">Otros</option>
-         </select>
+     <label for="gasto-tipo">Tipo de Gasto:</label>
+     <select id="gasto-tipo" name="tipo">
+       <option value="Terminal móvil">Terminal móvil</option>
+       <option value="ChatGPT Plus">ChatGPT Plus</option>
+       <option value="Electricidad">Electricidad</option>
+       <option value="Internet">Internet</option>
+       <option value="Seguro coche">Seguro coche</option>
+       <option value="Gasolina">Gasolina</option>
+       <option value="IBI vivienda">IBI vivienda</option>
+       <option value="Comunidad de vecinos">Comunidad de vecinos</option>
+       <option value="Otros">Otros</option>
+     </select>
 
-         <label for="gasto-total">Importe Total (€):</label>
-         <input type="number" step="0.01" id="gasto-total" name="importe_total">
+     <label for="gasto-total">Importe Total (€):</label>
+     <input type="number" step="0.01" id="gasto-total" name="importe_total">
 
-         <label for="gasto-compartido">Gasto Compartido:</label>
-         <input type="checkbox" id="gasto-compartido" name="gasto_compartido">
+     <label for="gasto-compartido">Gasto Compartido:</label>
+     <input type="checkbox" id="gasto-compartido" name="gasto_compartido">
 
-         <label for="gasto-porcentaje">Porcentaje Deducible (%):</label>
-         <input type="number" step="0.01" id="gasto-porcentaje" name="porcentaje_deducible" disabled>
+     <label for="gasto-porcentaje">Porcentaje Deducible (%):</label>
+     <input type="number" step="0.01" id="gasto-porcentaje" name="porcentaje_deducible" disabled>
 
-         <label for="gasto-deducible">Importe Deducible (€):</label>
-         <input type="number" step="0.01" id="gasto-deducible" name="importe_deducible" readonly>
+     <label for="gasto-deducible">Importe Deducible (€):</label>
+     <input type="number" step="0.01" id="gasto-deducible" name="importe_deducible" readonly>
 
-         <label for="gasto-nota">Justificación/Nota:</label>
-         <textarea id="gasto-nota" name="nota"></textarea>
+     <label for="gasto-nota">Justificación/Nota:</label>
+     <textarea id="gasto-nota" name="nota"></textarea>
 
-         <!-- Nuevo checkbox para dividir deducción en 4 años -->
-         <label for="dividir-deduccion">Dividir deducción en 4 años:</label>
-         <input type="checkbox" id="dividir-deduccion" name="dividir_deduccion">
+     <!-- Nuevo checkbox para dividir deducción en 4 años -->
+     <label for="dividir-deduccion">Dividir deducción en 4 años:</label>
+     <input type="checkbox" id="dividir-deduccion" name="dividir_deduccion">
 
-         <button type="submit" id="gasto-submit-btn">Agregar Gasto</button>
-         <button type="button" id="gasto-cancel-btn" style="display:none;">Cancelar</button>
-      </form>
+     <button type="submit" id="gasto-submit-btn">Agregar Gasto</button>
+     <button type="button" id="gasto-cancel-btn" style="display:none;">Cancelar</button>
+  </form>
 
-      <!-- Filtrado y exportación se mantienen -->
-      <div id="gastos-filter">
-         <h3>Filtrar por Fecha</h3>
-         <label for="gastos-filter-start">Desde:</label>
-         <input type="date" id="gastos-filter-start">
-         <label for="gastos-filter-end">Hasta:</label>
-         <input type="date" id="gastos-filter-end">
-         <button id="gastos-filter-btn">Filtrar</button>
-      </div>
-      
-      <div id="gastos-results"></div>
-      
-      <div id="gastos-summary">
-         <h3>Total Gastos: <span id="gastos-total">0</span> €</h3>
-         <button id="gastos-export-btn">Generar Excel</button>
-      </div>
-    </section>
+  <div id="gastos-filter">
+     <h3>Filtrar por Fecha</h3>
+     <label for="gastos-filter-start">Desde:</label>
+     <input type="date" id="gastos-filter-start">
+     <label for="gastos-filter-end">Hasta:</label>
+     <input type="date" id="gastos-filter-end">
+     <button id="gastos-filter-btn">Filtrar</button>
   </div>
+  
+  <div id="gastos-results"></div>
+  
+  <div id="gastos-summary">
+     <h3>Total Gastos: <span id="gastos-total">0</span> €</h3>
+     <button id="gastos-export-btn">Generar Excel</button>
+  </div>
+</section>
+</div>
 
   <script src="script.js"></script>
 </body>
