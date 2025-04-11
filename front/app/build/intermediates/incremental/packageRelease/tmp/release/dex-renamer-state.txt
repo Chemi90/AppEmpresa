@@ -1,0 +1,4 @@
+#Sun Apr 06 23:23:21 CEST 2025
+base.0=E\:\\Desarrollo\\Programas\\App datos\\front\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

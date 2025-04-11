@@ -1,0 +1,10 @@
+app.netlify.appempresa.twa.app-core-1.1.0-0 C:\Users\JOSE MIGUEL\.gradle\caches\8.8\transforms\2144911bb09dce3a07f407e3b390637e\transformed\core-1.1.0\res
+app.netlify.appempresa.twa.app-browser-1.4.0-1 C:\Users\JOSE MIGUEL\.gradle\caches\8.8\transforms\b511174c15fdde7dea3e957094b4390b\transformed\browser-1.4.0\res
+app.netlify.appempresa.twa.app-androidbrowserhelper-2.5.0-2 C:\Users\JOSE MIGUEL\.gradle\caches\8.8\transforms\d3335fbdff4200978ad121d7b141def7\transformed\androidbrowserhelper-2.5.0\res
+app.netlify.appempresa.twa.app-pngs-3 E:\Desarrollo\Programas\App datos\front\app\build\generated\res\pngs\release
+app.netlify.appempresa.twa.app-resValues-4 E:\Desarrollo\Programas\App datos\front\app\build\generated\res\resValues\release
+app.netlify.appempresa.twa.app-packageReleaseResources-5 E:\Desarrollo\Programas\App datos\front\app\build\intermediates\incremental\release\packageReleaseResources\merged.dir
+app.netlify.appempresa.twa.app-packageReleaseResources-6 E:\Desarrollo\Programas\App datos\front\app\build\intermediates\incremental\release\packageReleaseResources\stripped.dir
+app.netlify.appempresa.twa.app-release-7 E:\Desarrollo\Programas\App datos\front\app\build\intermediates\merged_res\release\mergeReleaseResources
+app.netlify.appempresa.twa.app-main-8 E:\Desarrollo\Programas\App datos\front\app\src\main\res
+app.netlify.appempresa.twa.app-release-9 E:\Desarrollo\Programas\App datos\front\app\src\release\res

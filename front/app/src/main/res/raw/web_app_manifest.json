@@ -1,0 +1,1 @@
+{"name":"Mi PWA","short_name":"MiApp","start_url":"/index.html","scope":"https://appempresa.netlify.app/","display":"standalone","background_color":"#FFFFFF","theme_color":"#000000","icons":[{"src":"https://appempresa.netlify.app/icon/lowres.webp","sizes":"48x48","type":"image/webp"},{"src":"https://appempresa.netlify.app/icon/hd_hi.ico","sizes":"72x72 96x96 128x128 256x256"}]}
