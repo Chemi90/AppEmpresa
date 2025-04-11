@@ -576,8 +576,7 @@ const gastoDeducibleInput = document.getElementById('gasto-deducible');
 const gastoCurrentId = document.getElementById('gasto-current-id');
 const gastoSubmitBtn = document.getElementById('gasto-submit-btn');
 const gastoCancelBtn = document.getElementById('gasto-cancel-btn');
-
-// Nuevo: checkbox para dividir deducción en 4 años
+// Nuevo checkbox para dividir deducción
 const dividirDeduccionCheckbox = document.getElementById('dividir-deduccion');
 
 function setDefaultPercentage() {
@@ -618,7 +617,7 @@ gastoCheckbox.addEventListener('change', function() {
   updateGastoDeducible();
 });
 
-// Actualización al cambiar el checkbox de dividir deducción
+// Actualiza cuando cambia el checkbox de dividir deducción
 dividirDeduccionCheckbox.addEventListener('change', updateGastoDeducible);
 
 function updateGastoDeducible() {
@@ -626,13 +625,13 @@ function updateGastoDeducible() {
   const porcentaje = parseFloat(gastoPorcentajeInput.value) || 0;
   
   if (total > 300 && dividirDeduccionCheckbox.checked) {
-    // El monto total a deducir es: total * (porcentaje / 100)
-    // Se divide ese valor en 4 partes iguales (una para cada año fiscal)
+    // Calcula el monto total a deducir usando el porcentaje ingresado sobre el precio completo
     const overallDeduction = total * (porcentaje / 100);
+    // Se divide en 4 partes iguales (cuota anual)
     const yearlyDeduction = overallDeduction / 4;
     gastoDeducibleInput.value = yearlyDeduction.toFixed(2);
   } else {
-    // Cálculo normal: se aplica el porcentaje al total
+    // Cálculo normal
     const deducible = total * (porcentaje / 100);
     gastoDeducibleInput.value = deducible.toFixed(2);
   }
